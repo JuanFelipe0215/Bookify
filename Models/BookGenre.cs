@@ -1,6 +1,11 @@
 namespace Bookify.Models;
 
-public class BookGenre
+public enum BookGenre
 {
-    
+    Ficcion,
+    NoFiccion,
+    Ciencia,
+    Historia,
+    Terror,
+    Romance
 }
