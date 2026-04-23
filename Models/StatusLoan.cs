@@ -1,6 +1,6 @@
 namespace Bookify.Models;
 
-public enum StatusLoad
+public enum StatusLoan
 {
     Prestado,
     Devuelto, 
