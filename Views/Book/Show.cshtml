@@ -1,0 +1,71 @@
+@model Bookify.Models.Book
+@{
+    ViewData["Title"] = "Detalle Libro";
+}
+
+<div class="max-w-2xl mx-auto">
+    <div class="flex items-center gap-3 mb-6">
+        <a asp-action="Index" class="text-muted hover:text-gold transition text-sm">← Volver</a>
+        <span class="text-border">/</span>
+        <span class="text-sm text-dark font-medium">Detalle de Libro</span>
+    </div>
+
+    <div class="bg-cream border border-border rounded-xl overflow-hidden">
+        <div class="px-7 py-5 border-b border-border bg-sand flex items-center justify-between">
+            <div>
+                <h2 class="font-serif text-xl font-bold text-dark">@Model.Title</h2>
+                <p class="text-xs text-muted mt-1">@Model.Author</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700">
+                    @Model.BookGenre
+                </span>
+                <a asp-action="Edit" asp-route-id="@Model.Id"
+                   class="text-xs px-4 py-2 rounded-lg border border-border text-muted hover:text-gold hover:border-gold transition">
+                    Editar
+                </a>
+            </div>
+        </div>
+
+        <div class="px-7 py-6 grid grid-cols-2 gap-6">
+            <div>
+                <p class="text-xs tracking-widest text-muted uppercase mb-1">ISBN</p>
+                <p class="text-sm text-dark font-medium font-mono">@Model.Isbn</p>
+            </div>
+            <div>
+                <p class="text-xs tracking-widest text-muted uppercase mb-1">Año de Publicación</p>
+                <p class="text-sm text-dark font-medium">@(Model.PublicationYear?.ToString() ?? "No registrado")</p>
+            </div>
+            <div>
+                <p class="text-xs tracking-widest text-muted uppercase mb-1">Disponibles</p>
+                <p class="text-sm text-dark font-medium">@Model.Quantity</p>
+            </div>
+            <div>
+                <p class="text-xs tracking-widest text-muted uppercase mb-1">Stock Total</p>
+                <p class="text-sm text-dark font-medium">@Model.Stock</p>
+            </div>
+        </div>
+
+        <div class="px-7 py-5 border-t border-border flex justify-end gap-3">
+            <a asp-action="Index"
+               class="text-sm px-5 py-2.5 rounded-lg border border-border text-muted hover:text-dark transition">
+                Volver
+            </a>
+            <form asp-action="Destroy" method="post" class="inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Title" />
+                <input type="hidden" asp-for="Author" />
+                <input type="hidden" asp-for="Isbn" />
+                <input type="hidden" asp-for="BookGenre" />
+                <input type="hidden" asp-for="Stock" />
+                <input type="hidden" asp-for="Quantity" />
+                <button type="submit"
+                        onclick="return confirm('¿Estás seguro de eliminar este libro?')"
+                        class="text-sm px-5 py-2.5 rounded-lg bg-red-50 border border-red-200 text-red-600 hover:bg-red-100 transition">
+                    Eliminar Libro
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
