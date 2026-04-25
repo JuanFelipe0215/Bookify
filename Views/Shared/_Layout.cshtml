@@ -1,50 +1,100 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Bookify</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Bookify.styles.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream:  '#fdfaf5',
+                        beige:  '#f5f0e8',
+                        sand:   '#ede8dc',
+                        border: '#d6cfc2',
+                        muted:  '#9a8e7e',
+                        dark:   '#3d3226',
+                        gold:   '#8b6914',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans:  ['"DM Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bookify</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+<body class="bg-beige text-dark min-h-screen flex">
+
+
+<aside class="w-64 min-h-screen bg-cream border-r border-border flex flex-col fixed top-0 left-0 z-50">
+
+
+    <div class="px-7 py-8 border-b border-border">
+        <div class="font-serif text-3xl font-black text-gold">Bookify</div>
+        <div class="text-xs tracking-widest text-muted uppercase mt-1">Sistema de Librería</div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Bookify - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+    <nav class="flex-1 px-4 py-6">
+        <p class="text-xs tracking-widest text-muted uppercase px-3 mb-2">Principal</p>
+        <a asp-controller="Home" asp-action="Index"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted hover:bg-sand hover:text-dark transition-all mb-1">
+            Dashboard
+        </a>
+
+        <p class="text-xs tracking-widest text-muted uppercase px-3 mt-5 mb-2">Gestión</p>
+        <a asp-controller="User" asp-action="Index"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted hover:bg-sand hover:text-dark transition-all mb-1">
+            Usuarios
+        </a>
+        <a asp-controller="Book" asp-action="Index"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted hover:bg-sand hover:text-dark transition-all mb-1">
+            Libros
+        </a>
+        <a asp-controller="Loan" asp-action="Index"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted hover:bg-sand hover:text-dark transition-all mb-1">
+            Préstamos
+        </a>
+    </nav>
+
+    <div class="px-7 py-4 border-t border-border text-xs text-muted">
+        Bookify Admin
+    </div>
+</aside>
+
+
+<div class="ml-64 flex-1 flex flex-col min-h-screen">
+
+
+    <header class="bg-cream border-b border-border px-9 py-4 flex items-center justify-between sticky top-0 z-40">
+        <div>
+            <div class="font-serif text-xl font-bold text-dark">@ViewData["Title"]</div>
+            <div class="text-xs text-muted mt-0.5">Bookify / @ViewData["Title"]</div>
         </div>
+        <div class="flex gap-2 items-center">
+            <a asp-controller="Loan" asp-action="Create"
+               class="bg-gold text-cream text-sm font-medium px-4 py-2 rounded-lg hover:opacity-90 transition">
+                + Nuevo Préstamo
+            </a>
+        </div>
+    </header>
+
+
+    <main class="flex-1 px-9 py-8">
+        @RenderBody()
+    </main>
+
+
+    <footer class="border-t border-border px-9 py-4 text-xs text-muted bg-cream">
+        &copy; 2026 - Bookify
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+</div>
+
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
