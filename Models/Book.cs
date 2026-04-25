@@ -21,7 +21,9 @@ public class Book
     public int? PublicationYear { get; set; }
     
     [Range(1, int.MaxValue, ErrorMessage = "Debe ser mayor a 0")]
-    public int QuantityAvailable { get; set; }
+    public int Quantity { get; set; }
+    
+    public int Stock { get; set; }
 
     public ICollection<Loan> Loans { get; set; } = new List<Loan>();
 }
