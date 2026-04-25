@@ -1,0 +1,83 @@
+@model IEnumerable<Bookify.Models.Book>
+@{
+    ViewData["Title"] = "Libros";
+}
+
+@if (TempData["message"] != null)
+{
+    <div class="mb-4 px-4 py-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm">
+        @TempData["message"]
+    </div>
+}
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h1 class="font-serif text-2xl font-bold text-dark">Libros</h1>
+        <p class="text-sm text-muted mt-1">Gestiona el catálogo de libros</p>
+    </div>
+    <a asp-action="Create"
+       class="bg-gold text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:opacity-90 transition">
+        + Nuevo Libro
+    </a>
+</div>
+
+<div class="bg-cream border border-border rounded-xl overflow-hidden">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-border bg-sand">
+        <span class="text-xs tracking-widest text-muted uppercase">Catálogo</span>
+        <span class="text-xs text-muted">@Model.Count() libros</span>
+    </div>
+    <table class="w-full">
+        <thead>
+            <tr class="bg-sand border-b border-border">
+                <th class="text-left px-5 py-3 text-xs tracking-widest text-muted uppercase">#</th>
+                <th class="text-left px-5 py-3 text-xs tracking-widest text-muted uppercase">Título</th>
+                <th class="text-left px-5 py-3 text-xs tracking-widest text-muted uppercase">Autor</th>
+                <th class="text-left px-5 py-3 text-xs tracking-widest text-muted uppercase">Género</th>
+                <th class="text-left px-5 py-3 text-xs tracking-widest text-muted uppercase">Disponibles</th>
+                <th class="text-left px-5 py-3 text-xs tracking-widest text-muted uppercase">Stock</th>
+                <th class="text-left px-5 py-3 text-xs tracking-widest text-muted uppercase">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr class="border-b border-border hover:bg-sand transition-colors">
+                    <td class="px-5 py-4 text-sm text-muted">@book.Id</td>
+                    <td class="px-5 py-4 text-sm font-medium text-dark">@book.Title</td>
+                    <td class="px-5 py-4 text-sm text-muted">@book.Author</td>
+                    <td class="px-5 py-4">
+                        <span class="text-xs px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700">
+                            @book.BookGenre
+                        </span>
+                    </td>
+                    <td class="px-5 py-4 text-sm text-dark font-medium">@book.Quantity</td>
+                    <td class="px-5 py-4 text-sm text-muted">@book.Stock</td>
+                    <td class="px-5 py-4">
+                        <div class="flex gap-2">
+                            <a asp-action="Show" asp-route-id="@book.Id"
+                               class="text-xs px-3 py-1.5 rounded-md border border-border text-muted hover:text-gold hover:border-gold transition">
+                                Ver
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@book.Id"
+                               class="text-xs px-3 py-1.5 rounded-md border border-border text-muted hover:text-gold hover:border-gold transition">
+                                Editar
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@book.Id"
+                               class="text-xs px-3 py-1.5 rounded-md border border-border text-muted hover:text-red-500 hover:border-red-400 transition">
+                                Eliminar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="7" class="px-5 py-12 text-center text-muted text-sm">
+                        No hay libros registrados aún.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
