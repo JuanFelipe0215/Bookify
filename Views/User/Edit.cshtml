@@ -1,41 +1,67 @@
 @model Bookify.Models.User
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
 
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <div class="card">
-            <div class="card-body">
-                
-                @if (TempData["message"] != null)
-                {
-                    <div class="alert alert-danger">
-                        @TempData["message"]
-                    </div>
-                }
-                
-                <form asp-action="Update" method="post">
-                    <div class="mt-4">
-                        <label asp-for="FirstName">Nombre</label>
-                        <input asp-for="FirstName" type="text" class="form-control">
-                    </div>
-                    
-                    <div class="mt-4">
-                        <label asp-for="Lastname">Apellido</label>
-                        <input asp-for="Lastname" type="text" class="form-control">
-                    </div>
-                    
-                    <div class="mt-4">
-                        <label asp-for="Email">Correo</label>
-                        <input asp-for="Email" type="text" class="form-control">
-                    </div>
-                    
-                    <div class="mt-4">
-                        <label asp-for="PhoneNumber">Numero Celularv</label>
-                        <input asp-for="PhoneNumber" type="text" class="form-control">
-                    </div>
-                   
-                    <button type="submit" class="btn btn-primary">Enviar</button>
-                </form>
-            </div>
+<div class="max-w-2xl mx-auto">
+    <div class="flex items-center gap-3 mb-6">
+        <a asp-action="Index" class="text-muted hover:text-gold transition text-sm">← Volver</a>
+        <span class="text-border">/</span>
+        <span class="text-sm text-dark font-medium">Editar Usuario</span>
+    </div>
+
+    <div class="bg-cream border border-border rounded-xl overflow-hidden">
+        <div class="px-7 py-5 border-b border-border bg-sand">
+            <h2 class="font-serif text-xl font-bold text-dark">Editar Usuario</h2>
+            <p class="text-xs text-muted mt-1">Modifica los datos del usuario</p>
         </div>
+
+        <form asp-action="Update" method="post" class="px-7 py-6">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+
+            <div class="grid grid-cols-2 gap-5">
+
+                <div class="flex flex-col gap-1.5">
+                    <label asp-for="FirstName" class="text-xs tracking-widest text-muted uppercase"></label>
+                    <input asp-for="FirstName"
+                           class="bg-beige border border-border rounded-lg px-4 py-2.5 text-sm text-dark focus:outline-none focus:border-gold transition" />
+                    <span asp-validation-for="FirstName" class="text-xs text-red-500"></span>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label asp-for="Lastname" class="text-xs tracking-widest text-muted uppercase"></label>
+                    <input asp-for="Lastname"
+                           class="bg-beige border border-border rounded-lg px-4 py-2.5 text-sm text-dark focus:outline-none focus:border-gold transition" />
+                    <span asp-validation-for="Lastname" class="text-xs text-red-500"></span>
+                </div>
+
+                <div class="flex flex-col gap-1.5 col-span-2">
+                    <label asp-for="Email" class="text-xs tracking-widest text-muted uppercase"></label>
+                    <input asp-for="Email" type="email"
+                           class="bg-beige border border-border rounded-lg px-4 py-2.5 text-sm text-dark focus:outline-none focus:border-gold transition" />
+                    <span asp-validation-for="Email" class="text-xs text-red-500"></span>
+                </div>
+
+                <div class="flex flex-col gap-1.5 col-span-2">
+                    <label asp-for="PhoneNumber" class="text-xs tracking-widest text-muted uppercase"></label>
+                    <input asp-for="PhoneNumber"
+                           class="bg-beige border border-border rounded-lg px-4 py-2.5 text-sm text-dark focus:outline-none focus:border-gold transition" />
+                    <span asp-validation-for="PhoneNumber" class="text-xs text-red-500"></span>
+                </div>
+
+            </div>
+
+            <div class="flex justify-end gap-3 mt-7 pt-5 border-t border-border">
+                <a asp-action="Index"
+                   class="text-sm px-5 py-2.5 rounded-lg border border-border text-muted hover:text-dark hover:border-dark transition">
+                    Cancelar
+                </a>
+                <button type="submit"
+                        class="bg-gold text-white text-sm font-medium px-6 py-2.5 rounded-lg hover:opacity-90 transition">
+                    Guardar Cambios
+                </button>
+            </div>
+        </form>
     </div>
 </div>
