@@ -1,7 +1,28 @@
+using Bookify.Data;
+using Bookify.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<UserServices>();
+builder.Services.AddScoped<BookServices>();
+builder.Services.AddScoped<LoanServices>();
+
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(
+            builder.Configuration.GetConnectionString("DefaultConnection")
+            )
+
+    )
+
+);
+
 
 var app = builder.Build();
 
@@ -22,7 +43,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=User}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

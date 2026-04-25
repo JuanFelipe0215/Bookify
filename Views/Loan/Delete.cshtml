@@ -1,0 +1,64 @@
+@model Bookify.Models.Loan
+@{
+    ViewData["Title"] = "Eliminar Préstamo";
+}
+
+<div class="max-w-lg mx-auto">
+    <div class="flex items-center gap-3 mb-6">
+        <a asp-action="Index" class="text-muted hover:text-gold transition text-sm">← Volver</a>
+        <span class="text-border">/</span>
+        <span class="text-sm text-dark font-medium">Eliminar Préstamo</span>
+    </div>
+
+    <div class="bg-cream border border-red-200 rounded-xl overflow-hidden">
+        <div class="px-7 py-5 border-b border-red-200 bg-red-50">
+            <h2 class="font-serif text-xl font-bold text-red-700">¿Eliminar préstamo?</h2>
+            <p class="text-xs text-red-500 mt-1">Esta acción no se puede deshacer</p>
+        </div>
+
+        <div class="px-7 py-6">
+            <p class="text-sm text-muted mb-4">Estás a punto de eliminar el siguiente préstamo:</p>
+            <div class="bg-sand border border-border rounded-lg px-5 py-4 grid grid-cols-2 gap-3">
+                <div class="col-span-2">
+                    <p class="text-xs text-muted uppercase tracking-widest mb-1">Usuario</p>
+                    <p class="text-sm font-medium text-dark">
+                        @(Model.User != null ? $"{Model.User.FirstName} {Model.User.Lastname}" : "Usuario #" + Model.IdUser)
+                    </p>
+                </div>
+                <div class="col-span-2">
+                    <p class="text-xs text-muted uppercase tracking-widest mb-1">Libro</p>
+                    <p class="text-sm font-medium text-dark">
+                        @(Model.Book != null ? Model.Book.Title : "Libro #" + Model.IdBook)
+                    </p>
+                </div>
+                <div>
+                    <p class="text-xs text-muted uppercase tracking-widest mb-1">Fecha Préstamo</p>
+                    <p class="text-sm font-medium text-dark">@Model.LoanDate.ToString("dd/MM/yyyy")</p>
+                </div>
+                <div>
+                    <p class="text-xs text-muted uppercase tracking-widest mb-1">Estado</p>
+                    <p class="text-sm font-medium text-dark">@Model.Status</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-7 py-5 border-t border-border flex justify-end gap-3">
+            <a asp-action="Index"
+               class="text-sm px-5 py-2.5 rounded-lg border border-border text-muted hover:text-dark transition">
+                Cancelar
+            </a>
+            <form asp-action="Destroy" method="post" class="inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="IdUser" />
+                <input type="hidden" asp-for="IdBook" />
+                <input type="hidden" asp-for="LoanDate" />
+                <input type="hidden" asp-for="Status" />
+                <button type="submit"
+                        class="text-sm px-5 py-2.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition">
+                    Sí, eliminar
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

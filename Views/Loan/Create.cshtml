@@ -1,0 +1,68 @@
+@model Bookify.Models.Loan
+@{
+    ViewData["Title"] = "Nuevo Préstamo";
+}
+
+<div class="max-w-2xl mx-auto">
+    <div class="flex items-center gap-3 mb-6">
+        <a asp-action="Index" class="text-muted hover:text-gold transition text-sm">← Volver</a>
+        <span class="text-border">/</span>
+        <span class="text-sm text-dark font-medium">Nuevo Préstamo</span>
+    </div>
+
+    <div class="bg-cream border border-border rounded-xl overflow-hidden">
+        <div class="px-7 py-5 border-b border-border bg-sand">
+            <h2 class="font-serif text-xl font-bold text-dark">Registrar Préstamo</h2>
+            <p class="text-xs text-muted mt-1">Selecciona el usuario y el libro a prestar</p>
+        </div>
+
+        <form asp-action="Store" method="post" class="px-7 py-6">
+            @Html.AntiForgeryToken()
+
+            <div class="grid grid-cols-2 gap-5">
+
+                <div class="flex flex-col gap-1.5 col-span-2">
+                    <label class="text-xs tracking-widest text-muted uppercase">Usuario</label>
+                    <select name="IdUser"
+                            class="bg-beige border border-border rounded-lg px-4 py-2.5 text-sm text-dark focus:outline-none focus:border-gold transition">
+                        <option value="">Seleccionar usuario...</option>
+                        @foreach (var user in ViewBag.Users as IEnumerable<Bookify.Models.User> ?? new List<Bookify.Models.User>())
+                        {
+                            <option value="@user.Id">@user.FirstName @user.Lastname</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="flex flex-col gap-1.5 col-span-2">
+                    <label class="text-xs tracking-widest text-muted uppercase">Libro</label>
+                    <select name="IdBook"
+                            class="bg-beige border border-border rounded-lg px-4 py-2.5 text-sm text-dark focus:outline-none focus:border-gold transition">
+                        <option value="">Seleccionar libro...</option>
+                        @foreach (var book in ViewBag.Books as IEnumerable<Bookify.Models.Book> ?? new List<Bookify.Models.Book>())
+                        {
+                            <option value="@book.Id">@book.Title — @book.Author (@book.Quantity disponibles)</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="flex flex-col gap-1.5 col-span-2">
+                    <label asp-for="ReturnDate" class="text-xs tracking-widest text-muted uppercase">Fecha de Devolución</label>
+                    <input asp-for="ReturnDate" type="date"
+                           class="bg-beige border border-border rounded-lg px-4 py-2.5 text-sm text-dark focus:outline-none focus:border-gold transition" />
+                </div>
+
+            </div>
+
+            <div class="flex justify-end gap-3 mt-7 pt-5 border-t border-border">
+                <a asp-action="Index"
+                   class="text-sm px-5 py-2.5 rounded-lg border border-border text-muted hover:text-dark hover:border-dark transition">
+                    Cancelar
+                </a>
+                <button type="submit"
+                        class="bg-gold text-white text-sm font-medium px-6 py-2.5 rounded-lg hover:opacity-90 transition">
+                    Registrar Préstamo
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
