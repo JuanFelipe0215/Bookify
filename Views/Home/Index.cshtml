@@ -1,8 +1,149 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="mb-8">
+    <h1 class="font-serif text-3xl font-bold text-dark">Bienvenido a Bookify</h1>
+    <p class="text-sm text-muted mt-1">Resumen general del sistema de librería</p>
+</div>
+
+
+<div class="grid grid-cols-4 gap-5 mb-10">
+
+    <div class="bg-cream border border-border rounded-xl px-6 py-5 relative overflow-hidden">
+        <div class="text-xs tracking-widest text-muted uppercase mb-3">Usuarios</div>
+        <div class="font-serif text-4xl font-bold text-dark">@ViewBag.TotalUsers</div>
+        <div class="text-xs text-muted mt-2">Registrados en el sistema</div>
+        <div class="absolute bottom-0 right-0 w-16 h-16 bg-sand rounded-tl-full opacity-50"></div>
+    </div>
+
+    <div class="bg-cream border border-border rounded-xl px-6 py-5 relative overflow-hidden">
+        <div class="text-xs tracking-widest text-muted uppercase mb-3">Libros</div>
+        <div class="font-serif text-4xl font-bold text-dark">@ViewBag.TotalBooks</div>
+        <div class="text-xs text-muted mt-2">Títulos en catálogo</div>
+        <div class="absolute bottom-0 right-0 w-16 h-16 bg-sand rounded-tl-full opacity-50"></div>
+    </div>
+
+    <div class="bg-cream border border-border rounded-xl px-6 py-5 relative overflow-hidden">
+        <div class="text-xs tracking-widest text-muted uppercase mb-3">Préstamos Activos</div>
+        <div class="font-serif text-4xl font-bold text-gold">@ViewBag.ActiveLoans</div>
+        <div class="text-xs text-muted mt-2">Libros actualmente prestados</div>
+        <div class="absolute bottom-0 right-0 w-16 h-16 bg-amber-100 rounded-tl-full opacity-40"></div>
+    </div>
+
+    <div class="bg-cream border border-border rounded-xl px-6 py-5 relative overflow-hidden">
+        <div class="text-xs tracking-widest text-muted uppercase mb-3">Vencidos</div>
+        <div class="font-serif text-4xl font-bold text-red-500">@ViewBag.OverdueLoans</div>
+        <div class="text-xs text-muted mt-2">Préstamos sin devolver</div>
+        <div class="absolute bottom-0 right-0 w-16 h-16 bg-red-100 rounded-tl-full opacity-40"></div>
+    </div>
+
+</div>
+
+
+<div class="grid grid-cols-3 gap-6">
+
+
+    <div class="col-span-2 bg-cream border border-border rounded-xl overflow-hidden">
+        <div class="px-6 py-4 border-b border-border bg-sand flex items-center justify-between">
+            <span class="text-xs tracking-widest text-muted uppercase">Préstamos Recientes</span>
+            <a asp-controller="Loan" asp-action="Index" class="text-xs text-gold hover:underline">Ver todos</a>
+        </div>
+        <table class="w-full">
+            <thead>
+                <tr class="border-b border-border bg-sand">
+                    <th class="text-left px-5 py-3 text-xs tracking-widest text-muted uppercase">Usuario</th>
+                    <th class="text-left px-5 py-3 text-xs tracking-widest text-muted uppercase">Libro</th>
+                    <th class="text-left px-5 py-3 text-xs tracking-widest text-muted uppercase">Fecha</th>
+                    <th class="text-left px-5 py-3 text-xs tracking-widest text-muted uppercase">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.RecentLoans != null)
+                {
+                    foreach (var loan in ViewBag.RecentLoans)
+                    {
+                        <tr class="border-b border-border hover:bg-sand transition-colors">
+                            <td class="px-5 py-3 text-sm text-dark">
+                                @(loan.User != null ? $"{loan.User.FirstName} {loan.User.Lastname}" : "—")
+                            </td>
+                            <td class="px-5 py-3 text-sm text-muted">
+                                @(loan.Book != null ? loan.Book.Title : "—")
+                            </td>
+                            <td class="px-5 py-3 text-sm text-muted">
+                                @loan.LoanDate.ToString("dd/MM/yyyy")
+                            </td>
+                            <td class="px-5 py-3">
+                                @if (loan.Status == Bookify.Models.StatusLoan.Prestado)
+                                {
+                                    <span class="text-xs px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700">Prestado</span>
+                                }
+                                else if (loan.Status == Bookify.Models.StatusLoan.Devuelto)
+                                {
+                                    <span class="text-xs px-2.5 py-1 rounded-full bg-green-50 border border-green-200 text-green-700">Devuelto</span>
+                                }
+                                else
+                                {
+                                    <span class="text-xs px-2.5 py-1 rounded-full bg-red-50 border border-red-200 text-red-600">Vencido</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="px-5 py-10 text-center text-muted text-sm">
+                            No hay préstamos registrados aún.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="flex flex-col gap-4">
+        <div class="bg-cream border border-border rounded-xl px-6 py-5">
+            <div class="text-xs tracking-widest text-muted uppercase mb-4">Accesos Rápidos</div>
+            <div class="flex flex-col gap-2">
+                <a asp-controller="User" asp-action="Create"
+                   class="flex items-center justify-between px-4 py-3 rounded-lg bg-sand border border-border text-sm text-dark hover:border-gold hover:text-gold transition">
+                    <span>Nuevo Usuario</span>
+                    <span class="text-muted">→</span>
+                </a>
+                <a asp-controller="Book" asp-action="Create"
+                   class="flex items-center justify-between px-4 py-3 rounded-lg bg-sand border border-border text-sm text-dark hover:border-gold hover:text-gold transition">
+                    <span>Nuevo Libro</span>
+                    <span class="text-muted">→</span>
+                </a>
+                <a asp-controller="Loan" asp-action="Create"
+                   class="flex items-center justify-between px-4 py-3 rounded-lg bg-gold text-white text-sm hover:opacity-90 transition">
+                    <span>Registrar Préstamo</span>
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-cream border border-border rounded-xl px-6 py-5">
+            <div class="text-xs tracking-widest text-muted uppercase mb-4">Resumen</div>
+            <div class="flex flex-col gap-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-muted">Total préstamos</span>
+                    <span class="text-sm font-medium text-dark">@ViewBag.TotalLoans</span>
+                </div>
+                <div class="h-px bg-border"></div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-muted">Activos</span>
+                    <span class="text-sm font-medium text-gold">@ViewBag.ActiveLoans</span>
+                </div>
+                <div class="h-px bg-border"></div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-muted">Vencidos</span>
+                    <span class="text-sm font-medium text-red-500">@ViewBag.OverdueLoans</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
