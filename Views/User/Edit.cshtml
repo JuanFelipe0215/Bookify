@@ -1,0 +1,41 @@
+@model Bookify.Models.User
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card">
+            <div class="card-body">
+                
+                @if (TempData["message"] != null)
+                {
+                    <div class="alert alert-danger">
+                        @TempData["message"]
+                    </div>
+                }
+                
+                <form asp-action="Update" method="post">
+                    <div class="mt-4">
+                        <label asp-for="FirstName">Nombre</label>
+                        <input asp-for="FirstName" type="text" class="form-control">
+                    </div>
+                    
+                    <div class="mt-4">
+                        <label asp-for="Lastname">Apellido</label>
+                        <input asp-for="Lastname" type="text" class="form-control">
+                    </div>
+                    
+                    <div class="mt-4">
+                        <label asp-for="Email">Correo</label>
+                        <input asp-for="Email" type="text" class="form-control">
+                    </div>
+                    
+                    <div class="mt-4">
+                        <label asp-for="PhoneNumber">Numero Celularv</label>
+                        <input asp-for="PhoneNumber" type="text" class="form-control">
+                    </div>
+                   
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
